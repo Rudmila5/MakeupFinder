@@ -1,27 +1,27 @@
 const express = require('express');
-const mysql = require('mysql2'); // `mysql2` is already included
+const mysql = require('mysql2'); 
 const cors = require('cors');
 
 const PORT = 4000;
 const app = express();
 
 app.use(cors({
-  origin: '*', // This will allow any origin (for local testing)
+  origin: '*', 
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 
-// Create a MySQL2 database connection
+
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Rudu5@', // Replace with your actual MySQL password
-  database: 'ingredientfinder', // Ensure this is your actual database name
+  password: 'Rudu5@', 
+  database: 'ingredientfinder', 
   port: 3306
 });
 
-// Establish the database connection
+
 db.connect((err) => {
   if (err) {
     console.error('Database connection failed:', err.stack);
@@ -30,24 +30,24 @@ db.connect((err) => {
   console.log('Connected to MySQL database.');
 });
 
-// Root route
+
 app.get('/', (req, res) => {
   res.send('Welcome to the Makeup Finder API!');
 });
 
-// Search route
+
 app.get('/search', (req, res) => {
-  // Handle the search query and send back results
-  const searchTerm = req.query.query;  // The search term from the frontend query parameter
+  
+  const searchTerm = req.query.query;  
 
   if (!searchTerm) {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  // Prepare the search term for SQL query
+  
   const queryParams = [`%${searchTerm}%`];
 
-  // SQL query to search products
+ 
   const sqlQuery = `
     SELECT 
       p.product_name, 
