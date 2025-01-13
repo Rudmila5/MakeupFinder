@@ -15,11 +15,11 @@ app.use(cors({
 
 // Set up the database connection using environment variables
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,  // Use the MySQL service name, e.g., mysql-foo
-  user: process.env.DB_USER,  // Your MySQL username, e.g., mysql_user
-  password: process.env.DB_PASSWORD,  // Your MySQL password
-  database: process.env.DB_NAME,  // Your MySQL database name, e.g., ingredientfinder
-  port: process.env.DB_PORT || 3306,  // Default to port 3306 if not specified
+  host: process.env.DB_HOST,  
+  user: process.env.DB_USER, 
+  password: process.env.DB_PASSWORD,  
+  database: process.env.DB_NAME,  
+  port: process.env.DB_PORT || 3306,  
 });
 
 // Connect to the database

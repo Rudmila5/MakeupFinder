@@ -1,17 +1,22 @@
 console.log('Frontend JavaScript is running!');
 
-const apiBaseURL = 'https://makeupfinder.onrender.com/';  // Move this here
+const apiBaseURL = 'https://makeupfinder.onrender.com/';
 
 const urlParams = new URLSearchParams(window.location.search);
-const searchQuery = urlParams.get('search');  
+const searchQuery = urlParams.get('search');
+
+console.log("URL Search Query:", searchQuery);
+
 if (searchQuery) {
-  document.getElementById('searchInput').value = searchQuery; 
-  fetchSearchResults(searchQuery); 
+  document.getElementById('searchInput').value = searchQuery;
+  fetchSearchResults(searchQuery);
+} else {
+  displayErrorMessage('No search query provided.');
 }
 
 function displayResults(data) {
   const resultsContainer = document.getElementById('results-container');
-  resultsContainer.innerHTML = ''; 
+  resultsContainer.innerHTML = '';
 
   if (data.length === 0) {
     resultsContainer.innerHTML = '<p>No products found.</p>';
@@ -35,12 +40,14 @@ async function fetchSearchResults(query) {
   console.log(`Fetching data for query: ${query}`);
   try {
     const response = await fetch(`${apiBaseURL}/search?query=${query}`);
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
     const data = await response.json();
     console.log('Search results:', data);
-    displayResults(data); // Function to render the results on your frontend
+    displayResults(data);
   } catch (error) {
     console.error('Error fetching products:', error);
     displayErrorMessage('Error fetching products. Please try again.');
