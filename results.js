@@ -1,6 +1,6 @@
 console.log('Frontend JavaScript is running!');
 
-const apiBaseURL = 'https://makeupfinder.onrender.com/';
+const apiBaseURL = 'https://makeupfinder.onrender.com';
 
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search');
@@ -40,7 +40,6 @@ async function fetchSearchResults(query) {
   console.log(`Fetching data for query: ${query}`);
   try {
     const response = await fetch(`${apiBaseURL}/search?query=${query}`);
-    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
