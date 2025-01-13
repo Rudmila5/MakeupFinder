@@ -10,7 +10,7 @@ function searchIngredients() {
   fetch(`http://localhost:3000/search?query=${encodeURIComponent(searchTerm)}`)
     .then(response => response.json())
     .then(data => {
-      displayResults(data); // Call the function to display results
+      displayResults(data); 
     })
     .catch(error => {
       console.error('Error fetching products:', error);
@@ -18,5 +18,5 @@ function searchIngredients() {
     });
 }
 
-// Event listener for search button
+
 document.getElementById('search-button').addEventListener('click', searchIngredients);

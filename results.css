@@ -18,11 +18,11 @@ body {
   text-decoration: none;
   font-size: 23px;
   font-family: "Nunito", serif;
-  padding: 10px 20px; /* Add some padding for spacing */
+  padding: 10px 20px; 
 }
 
 .topnav img.LogoHeader {
-  max-height: 200px; /* Ensure the logo size is appropriate */
+  max-height: 200px; 
   object-fit: contain;
 }
 
@@ -31,7 +31,7 @@ a {
   color: inherit;
 }
 
-/* Make sure the items are centered together */
+
 .topnav div {
   display: flex;
   justify-content: center;
@@ -40,7 +40,7 @@ a {
 
 
 
-/* Search Form */
+
 .search-bar {
   text-align: center;
   margin-top: 20px;
@@ -70,7 +70,7 @@ a {
   background-color: #000000;
 }
 
-/* Main Container */
+
 .container {
   width: 80%;
   margin: 40px auto;
@@ -84,7 +84,7 @@ a {
   font-family: "Nunito", serif;
 }
 
-/* Product List */
+
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -140,7 +140,7 @@ a {
   margin-top: 10px;
 }
 
-/* Responsive Design for iPhone and Small Screens */
+
 @media screen and (max-width: 767px) {
   .topnav {
     flex-direction: column;
@@ -209,6 +209,7 @@ a {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: auto; /* Adjust this to make the button smaller */
-  }
+    width: auto; 
+}
+
 }

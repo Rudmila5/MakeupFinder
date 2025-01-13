@@ -16,7 +16,7 @@ app.use(cors({
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Rumimoney5@', // Replace with your actual MySQL password
+  password: 'Rudu5@', // Replace with your actual MySQL password
   database: 'ingredientfinder', // Ensure this is your actual database name
   port: 3306
 });

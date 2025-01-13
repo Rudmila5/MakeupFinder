@@ -1,17 +1,16 @@
-// Handle the results of the search query
+
 console.log('Frontend JavaScript is running!');
 
-// Get the query parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const searchQuery = urlParams.get('search');  // Updated this to 'search'
+const searchQuery = urlParams.get('search');  
 if (searchQuery) {
-  document.getElementById('searchInput').value = searchQuery; // Set the query in the search input
-  fetchSearchResults(searchQuery); // Trigger the search on page load
+  document.getElementById('searchInput').value = searchQuery; 
+  fetchSearchResults(searchQuery); 
 }
 
 function displayResults(data) {
   const resultsContainer = document.getElementById('results-container');
-  resultsContainer.innerHTML = ''; // Clear previous results
+  resultsContainer.innerHTML = ''; 
 
   if (data.length === 0) {
     resultsContainer.innerHTML = '<p>No products found.</p>';
@@ -31,18 +30,18 @@ function displayResults(data) {
   });
 }
 
-// Fetch data from the API based on user input
+
 function fetchSearchResults(query) {
-  document.getElementById('loading').style.display = 'block'; // Show loading indicator
+  document.getElementById('loading').style.display = 'block'; 
   
   console.log('Fetching data for query:', query);
   
   fetch(`http://localhost:4000/search?query=${encodeURIComponent(query)}`)
     .then(response => response.json())
     .then(data => {
-      document.getElementById('loading').style.display = 'none'; // Hide loading indicator
+      document.getElementById('loading').style.display = 'none'; 
       console.log('Data received:', data);
-      displayResults(data); // Call the displayResults function to handle the data
+      displayResults(data); 
     })
     .catch(error => {
       console.error('Error fetching products:', error);
