@@ -1,5 +1,6 @@
-
 console.log('Frontend JavaScript is running!');
+
+const apiBaseURL = 'https://makeupfinder.onrender.com/';  // Move this here
 
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search');  
@@ -30,8 +31,6 @@ function displayResults(data) {
   });
 }
 
-const apiBaseURL = 'https://makeupfinder.onrender.com/';
-
 async function fetchSearchResults(query) {
   console.log(`Fetching data for query: ${query}`);
   try {
@@ -52,9 +51,3 @@ function displayErrorMessage(message) {
   const resultsContainer = document.getElementById('results-container');
   resultsContainer.innerHTML = `<p>${message}</p>`;
 }
-
-
-
-
-
-
