@@ -1,28 +1,25 @@
 const express = require('express');
 const mysql = require('mysql2'); 
 const cors = require('cors');
+require('dotenv').config();
 
-// Set up environment variables
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-// CORS setup
 app.use(cors({
-  origin: '*', 
+  origin: '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Set up the database connection using environment variables
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,  
-  user: process.env.DB_USER, 
-  password: process.env.DB_PASSWORD,  
-  database: process.env.DB_NAME,  
-  port: process.env.DB_PORT || 3306,  
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
 });
 
-// Connect to the database
 db.connect((err) => {
   if (err) {
     console.error('Database connection failed:', err.stack);
@@ -31,12 +28,10 @@ db.connect((err) => {
   console.log('Connected to MySQL database.');
 });
 
-// Default route
 app.get('/', (req, res) => {
   res.send('Welcome to the Makeup Finder API!');
 });
 
-// Search route
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;  
 
@@ -60,9 +55,6 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  console.log('SQL query being executed:', sqlQuery, queryParams); // Debugging log
-
-  // Execute the SQL query
   db.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
       console.error('Database error:', err);
@@ -77,7 +69,6 @@ app.get('/search', (req, res) => {
   });
 });
 
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
