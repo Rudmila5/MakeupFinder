@@ -33,11 +33,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
-  const searchTerm = req.query.query;  
+  const searchTerm = req.query.query;
 
   if (!searchTerm) {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
+
+  console.log('Received search term:', searchTerm);  // Log searchTerm to verify
 
   const queryParams = [`%${searchTerm}%`];
 
@@ -55,10 +57,12 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
+  console.log('Executing query:', sqlQuery); // Log query to check its correctness
+
   db.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
-      console.error('Database error:', err);
-      return res.status(500).json({ error: 'Database error', details: err });
+      console.error('Database error:', err);  // This should log any errors related to the query
+      return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
     if (results.length === 0) {
@@ -68,6 +72,7 @@ app.get('/search', (req, res) => {
     res.json(results);
   });
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
