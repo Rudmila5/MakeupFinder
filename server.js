@@ -12,20 +12,16 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-const db = mysql.createConnection({
+
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 3306,
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error('Database connection failed:', err.stack);
-    return;
-  }
-  console.log('Connected to MySQL database.');
+  waitForConnections: true,
+  connectionLimit: 10, 
+  queueLimit: 0
 });
 
 app.get('/', (req, res) => {
@@ -39,7 +35,7 @@ app.get('/search', (req, res) => {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  console.log('Received search term:', searchTerm);  // Log searchTerm to verify
+  console.log('Received search term:', searchTerm);  
 
   const queryParams = [`%${searchTerm}%`];
 
@@ -57,11 +53,12 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  console.log('Executing query:', sqlQuery); // Log query to check its correctness
+  console.log('Executing query:', sqlQuery); 
 
-  db.query(sqlQuery, queryParams, (err, results) => {
+  // Use pool.query for query execution
+  pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
-      console.error('Database error:', err);  // This should log any errors related to the query
+      console.error('Database error:', err);  
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
@@ -72,7 +69,6 @@ app.get('/search', (req, res) => {
     res.json(results);
   });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
