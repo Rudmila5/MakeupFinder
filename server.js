@@ -1,32 +1,3 @@
-require('dotenv').config();
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-
-const PORT = process.env.PORT || 4000;
-const app = express();
-
-app.use(cors({
-  origin: 'https://rudmila5.github.io',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-  waitForConnections: true,
-  connectionLimit: 10, 
-  queueLimit: 0
-});
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the Makeup Finder API!');
-});
-
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
@@ -50,8 +21,11 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
+  console.log('Executing query:', sqlQuery);  // Log query to check its structure
+
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
+      console.error('Database query error:', err);  // Log detailed error
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
@@ -61,8 +35,4 @@ app.get('/search', (req, res) => {
 
     res.json(results);
   });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
