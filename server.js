@@ -1,8 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2'); 
+const mysql = require('mysql2');
 const cors = require('cors');
-require('dotenv').config();
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -56,7 +55,6 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  console.log('Executing query:', sqlQuery);
   db.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
       console.error('Database error:', err);
