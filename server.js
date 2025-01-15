@@ -7,11 +7,10 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://rudmila5.github.io',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -35,8 +34,6 @@ app.get('/search', (req, res) => {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  console.log('Received search term:', searchTerm);  
-
   const queryParams = [`%${searchTerm}%`];
 
   const sqlQuery = `
@@ -53,12 +50,8 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  console.log('Executing query:', sqlQuery); 
-
-  // Use pool.query for query execution
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
-      console.error('Database error:', err);  
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
