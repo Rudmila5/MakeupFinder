@@ -5,20 +5,18 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Log environment variables for debugging
 console.log('MYSQLHOST:', process.env.MYSQLHOST);
 console.log('MYSQLUSER:', process.env.MYSQLUSER);
 console.log('MYSQLPASSWORD:', process.env.MYSQLPASSWORD);
 console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
 
-// Enable CORS for the frontend (GitHub Pages)
+
 app.use(cors({
-  origin: 'https://rudmila5.github.io',
+  origin: 'https://rudmila5.github.io', 
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Create the MySQL pool connection
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -30,12 +28,10 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Route for home
 app.get('/', (req, res) => {
   res.send('Welcome to the Makeup Finder API!');
 });
 
-// Search route that queries the database based on ingredients
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
@@ -72,7 +68,6 @@ app.get('/search', (req, res) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
