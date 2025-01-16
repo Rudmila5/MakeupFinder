@@ -1,13 +1,40 @@
 console.log('Frontend JavaScript is running!');
 
-const apiBaseURL = 'https://makeupfinder.onrender.com'; 
+// Base URL for the backend
+const apiBaseURL = 'https://makeupfinder.onrender.com';
 
+// Get the search query from the URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search');
 console.log('URL Search Query:', searchQuery);
+
 if (searchQuery) {
-  document.getElementById('searchInput').value = searchQuery;
+  // Set the search query in the search input for user convenience
+  document.getElementById('search-input').value = searchQuery;
+
+  // Fetch results for the query
   fetchSearchResults(searchQuery);
+} else {
+  displayErrorMessage('No search query found.');
+}
+
+async function fetchSearchResults(query) {
+  console.log(`Fetching data for query: ${query}`);
+
+  try {
+    const response = await fetch(`${apiBaseURL}/search?query=${encodeURIComponent(query)}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Search results:', data);
+    displayResults(data);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    displayErrorMessage('Error fetching products. Please try again.');
+  }
 }
 
 function displayResults(data) {
@@ -19,6 +46,7 @@ function displayResults(data) {
     return;
   }
 
+  // Loop through the results and display them
   data.forEach(product => {
     const productDiv = document.createElement('div');
     productDiv.classList.add('product-card');
@@ -30,22 +58,6 @@ function displayResults(data) {
     `;
     resultsContainer.appendChild(productDiv);
   });
-}
-
-async function fetchSearchResults(query) {
-  console.log(`Fetching data for query: ${query}`);
-  try {
-    const response = await fetch(`${apiBaseURL}/search?query=${query}`); 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('Search results:', data);
-    displayResults(data);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    displayErrorMessage('Error fetching products. Please try again.');
-  }
 }
 
 function displayErrorMessage(message) {

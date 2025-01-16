@@ -7,16 +7,9 @@ function searchIngredients() {
     return;
   }
 
-  fetch(`http://localhost:3000/search?query=${encodeURIComponent(searchTerm)}`)
-    .then(response => response.json())
-    .then(data => {
-      displayResults(data); 
-    })
-    .catch(error => {
-      console.error('Error fetching products:', error);
-      alert('An error occurred while fetching products.');
-    });
+  // Redirect to results page with the search query
+  window.location.href = `results.html?search=${encodeURIComponent(searchTerm)}`;
 }
 
-
+// Event listener for the search button
 document.getElementById('search-button').addEventListener('click', searchIngredients);
