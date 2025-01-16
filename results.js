@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const apiBaseURL='https://ingredientfinder.railway.app';  
 
   // Get the search query from the URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get('search');
+    const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('query');  
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
