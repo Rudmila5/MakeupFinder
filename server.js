@@ -6,11 +6,14 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({
-  origin: 'https://rudmila5.github.io',
+aapp.use(cors({
+  origin: ['https://rudmila5.github.io'], // You can specify more origins if necessary
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, 
 }));
+
+
 
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST,
