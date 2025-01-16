@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Frontend JavaScript is running!');
 
   // Base URL for the backend
-const apiBaseURL='https://ingredientfinder.railway.app';  
+const apiBaseURL = 'https://ingredientfinder.railway.app';
 
   // Get the search query from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get('query');  
+  const searchQuery = urlParams.get('search');  
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
