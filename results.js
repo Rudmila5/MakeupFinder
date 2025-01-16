@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Frontend JavaScript is running!');
 
   // Base URL for the backend
-  const apiBaseURL = 'https://makeupfinder.onrender.com';
+const apiBaseURL = 'mysql://root:aYZqocpNgbldQqVhmpNEiYZUVmEFNZyf@junction.proxy.rlwy.net:35784/railway';
+';
 
   // Get the search query from the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
