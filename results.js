@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Base URL for the backend
 const apiBaseURL = 'mysql://root:aYZqocpNgbldQqVhmpNEiYZUVmEFNZyf@junction.proxy.rlwy.net:35784/railway';
-';
+
 
   // Get the search query from the URL parameters
   const urlParams = new URLSearchParams(window.location.search);
