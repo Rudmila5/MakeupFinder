@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -10,12 +11,13 @@ console.log('MYSQLUSER:', process.env.MYSQLUSER);
 console.log('MYSQLPASSWORD:', process.env.MYSQLPASSWORD);
 console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
 
-
-app.use(cors({
-  origin: 'https://rudmila5.github.io', 
+const corsOptions = {
+  origin: 'https://rudmila5.github.io',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+
+app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST,
