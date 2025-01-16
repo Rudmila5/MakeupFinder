@@ -12,7 +12,11 @@ console.log('MYSQLPASSWORD:', process.env.MYSQLPASSWORD);
 console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
 
 const corsOptions = {
-  origin: 'https://rudmila5.github.io',
+  origin: [
+    'https://rudmila5.github.io', 
+    'https://BeautyFinder.onrender.com', 
+    'https://IngredientFinder.railway.app' 
+  ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -73,3 +77,4 @@ app.get('/search', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
