@@ -6,11 +6,10 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-aapp.use(cors({
-  origin: ['https://rudmila5.github.io'], // You can specify more origins if necessary
+app.use(cors({
+  origin: 'https://rudmila5.github.io',
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, 
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 
