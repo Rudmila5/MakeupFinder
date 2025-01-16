@@ -6,16 +6,16 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-console.log('MYSQLHOST:', process.env.MYSQLHOST);
-console.log('MYSQLUSER:', process.env.MYSQLUSER);
-console.log('MYSQLPASSWORD:', process.env.MYSQLPASSWORD);
-console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
 
 const corsOptions = {
   origin: [
-    'https://rudmila5.github.io', 
-    'https://BeautyFinder.onrender.com', 
-    'https://IngredientFinder.railway.app' 
+    'https://rudmila5.github.io', // Frontend (GitHub Pages)
+    'https://BeautyFinder.onrender.com', // Backend (Render)
+    'https://IngredientFinder.railway.app' // Optional, if you have your app deployed on Railway
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -24,11 +24,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT || 3306,
+  host: process.env.DB_HOST, // Use DB_HOST for the database host
+  user: process.env.DB_USER, // Use DB_USER for the username
+  password: process.env.DB_PASSWORD, // Use DB_PASSWORD for the password
+  database: process.env.DB_NAME, // Use DB_NAME for the database name
+  port: process.env.DB_PORT || 3306, // Default port if not specified
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -77,4 +77,5 @@ app.get('/search', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
