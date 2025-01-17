@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); // Ensure dotenv is loaded
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -15,7 +15,7 @@ const corsOptions = {
   origin: [
     'https://rudmila5.github.io', // Frontend (GitHub Pages)
     'https://BeautyFinder.onrender.com', // Backend (Render)
-    'https://IngredientFinder.railway.app' // Optional, if you have your app deployed on Railway
+    'https://IngredientFinder.railway.app'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -24,12 +24,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST, // Use DB_HOST for the database host
-  user: process.env.DB_USER, // Use DB_USER for the username
-  password: process.env.DB_PASSWORD, // Use DB_PASSWORD for the password
-  database: process.env.DB_NAME, // Use DB_NAME for the database name
-  port: process.env.DB_PORT || 3306, // Default port if not specified
-  waitForConnections: true,
+  host: process.env.DB_HOST, 
+  user: process.env.DB_USER, 
+  password: process.env.DB_PASSWORD, 
+  database: process.env.DB_NAME, 
+  port: process.env.DB_PORT || 3306, 
   connectionLimit: 10,
   queueLimit: 0
 });
@@ -77,5 +76,3 @@ app.get('/search', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
