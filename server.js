@@ -1,40 +1,17 @@
-require('dotenv').config(); // Ensure dotenv is loaded
-const express = require('express'); // Import express
-const mysql = require('mysql2');
+const express = require('express');
+const mysql = require('mysql');
 const cors = require('cors');
 
-// Initialize the app
-const app = express();  // <-- This line is missing, it needs to be added
+const app = express();
+const port = 4000;
 
-const PORT = process.env.PORT || 4000;
-
-console.log(process.env.DB_HOST); 
-console.log(process.env.DB_USER); 
-
-const corsOptions = {
-  origin: [
-    'http://localhost:4000', // localhost for development
-    'https://rudmila5.github.io' //  GitHub Pages origin
-  ],
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the Makeup Finder API!');
+  host: 'localhost',
+  user: 'root',
+  password: 'Rudu5@',
+  database: 'ingredientfinder',
 });
 
 app.get('/search', (req, res) => {
@@ -45,18 +22,6 @@ app.get('/search', (req, res) => {
   }
 
   const queryParams = [`%${searchTerm}%`];
-
-  const corsOptions = {
-    origin: [
-      'http://localhost:4000', // localhost for development
-      'https://rudmila5.github.io' // Allow GitHub Pages origin
-    ],
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  };
-  
-  app.use(cors(corsOptions));
-  
 
   const sqlQuery = `
     SELECT 
@@ -77,10 +42,7 @@ app.get('/search', (req, res) => {
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
-    console.log("Results fetched from DB:", results); // Log the results for debugging
-
     if (results.length === 0) {
-      console.log("No products found."); // Log if no products were found
       return res.status(404).json({ message: 'No products found for the given ingredients' });
     }
 
@@ -88,6 +50,6 @@ app.get('/search', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

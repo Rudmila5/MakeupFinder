@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Frontend JavaScript is running!');
-
   const apiBaseURL = 'http://localhost:4000';
 
   const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get('query');  
+  const searchQuery = urlParams.get('search');
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
@@ -18,12 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchSearchResults(query) {
-    console.log(`Fetching data for query: ${query}`);
-
-    const resultsContainer = document.getElementById('results-container');
-    // Show loading indicator
-    resultsContainer.innerHTML = '<p>Loading products...</p>';
-
     try {
       const response = await fetch(`${apiBaseURL}/search?query=${encodeURIComponent(query)}`);
 
@@ -32,23 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const data = await response.json();
-      console.log('Search results:', data);
-      
-     
-      resultsContainer.innerHTML = ''; 
       displayResults(data);
     } catch (error) {
       console.error('Error fetching products:', error);
-      
-      
-      resultsContainer.innerHTML = '';
       displayErrorMessage('Error fetching products. Please try again.');
     }
   }
 
   function displayResults(data) {
     const resultsContainer = document.getElementById('results-container');
-    
+    resultsContainer.innerHTML = '';
+
     if (data.length === 0) {
       resultsContainer.innerHTML = '<p>No products found.</p>';
       return;
