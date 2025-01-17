@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const apiBaseURL = 'http://localhost:4000';
 
   const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get('query');
+  const searchQuery = urlParams.get('search');
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
