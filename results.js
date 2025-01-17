@@ -1,22 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Frontend JavaScript is running!');
 
-  // Base URL for the backend
-const apiBaseURL = 'https://ingredientfinder.railway.app';
+  const apiBaseURL = 'http://localhost:4000';
 
-  // Get the search query from the URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
   const searchQuery = urlParams.get('query');  
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
-    // Set the search query in the search input for user convenience
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
       searchInput.value = searchQuery;
     }
-
-    // Fetch results for the query
     fetchSearchResults(searchQuery);
   } else {
     displayErrorMessage('No search query found.');
@@ -50,7 +45,6 @@ const apiBaseURL = 'https://ingredientfinder.railway.app';
       return;
     }
 
-    // Loop through the results and display them
     data.forEach(product => {
       const productDiv = document.createElement('div');
       productDiv.classList.add('product-card');

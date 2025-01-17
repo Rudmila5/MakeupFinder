@@ -13,24 +13,22 @@ console.log('DB_NAME:', process.env.DB_NAME);
 
 const corsOptions = {
   origin: [
-    'https://rudmila5.github.io', // Frontend (GitHub Pages)
-    'https://BeautyFinder.onrender.com', // Backend (Render)
-    'https://IngredientFinder.railway.app'
+    'http://localhost:4000', 
   ],
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST, 
-  user: process.env.DB_USER, 
-  password: process.env.DB_PASSWORD, 
-  database: process.env.DB_NAME, 
-  port: process.env.DB_PORT || 3306, 
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 app.get('/', (req, res) => {
