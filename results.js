@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const apiBaseURL = 'http://localhost:4000';
 
   const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get('search');
+  const searchQuery = urlParams.get('query');  
   console.log('URL Search Query:', searchQuery);
 
   if (searchQuery) {
@@ -20,22 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
   async function fetchSearchResults(query) {
     console.log(`Fetching data for query: ${query}`);
 
+    const resultsContainer = document.getElementById('results-container');
+    // Show loading indicator
+    resultsContainer.innerHTML = '<p>Loading products...</p>';
+
     try {
       const response = await fetch(`${apiBaseURL}/search?query=${encodeURIComponent(query)}`);
-      
-      // Check for non-2xx response
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
       console.log('Search results:', data);
-      
-      if (data.message && data.message === 'No products found for the given ingredients') {
-        displayErrorMessage(data.message);
-      } else {
-        displayResults(data);
-      }
+      displayResults(data);
     } catch (error) {
       console.error('Error fetching products:', error);
       displayErrorMessage('Error fetching products. Please try again.');
@@ -44,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function displayResults(data) {
     const resultsContainer = document.getElementById('results-container');
-    resultsContainer.innerHTML = ''; // Clear any previous results
+    resultsContainer.innerHTML = ''; // Clear the loading message
 
     if (data.length === 0) {
-      resultsContainer.innerHTML = '<p>No products found for the given ingredients.</p>';
+      resultsContainer.innerHTML = '<p>No products found.</p>';
       return;
     }
 
@@ -55,9 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const productDiv = document.createElement('div');
       productDiv.classList.add('product-card');
       productDiv.innerHTML = `
-        <h3 class="product-title">
-          <a href="${product.product_URL}" target="_blank">${product.product_name}</a>
-        </h3>
+        <h3 class="product-title"><a href="${product.product_URL}" target="_blank">${product.product_name}</a></h3>
         <p>Brand: ${product.brand_name}</p>
         <p>Category: ${product.category_name}</p>
         <p>Ingredient: ${product.ingredient_name}</p>
