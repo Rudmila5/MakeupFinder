@@ -33,17 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await response.json();
       console.log('Search results:', data);
+      
+     
+      resultsContainer.innerHTML = ''; 
       displayResults(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      
+      
+      resultsContainer.innerHTML = '';
       displayErrorMessage('Error fetching products. Please try again.');
     }
   }
 
   function displayResults(data) {
     const resultsContainer = document.getElementById('results-container');
-    resultsContainer.innerHTML = ''; // Clear the loading message
-
+    
     if (data.length === 0) {
       resultsContainer.innerHTML = '<p>No products found.</p>';
       return;
