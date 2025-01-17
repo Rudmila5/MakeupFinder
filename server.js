@@ -5,8 +5,10 @@ app.get('/search', (req, res) => {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
+  // Prepare the search term for SQL
   const queryParams = [`%${searchTerm}%`];
 
+  // SQL query
   const sqlQuery = `
     SELECT 
       p.product_name, 
@@ -21,18 +23,26 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
+  // Log the query for debugging
+  console.log("Running SQL query with search term:", searchTerm);
+  console.log("Prepared query params:", queryParams);
+
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
+      console.error("Database error:", err); // Log the error if there's any
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
-    console.log("Results fetched from DB:", results); // Log the results for debugging
+    // Log the query results to see what we are getting back
+    console.log("Query Results:", results);
 
     if (results.length === 0) {
-      console.log("No products found."); // Log if no products were found
+      console.log("No products found for search term:", searchTerm); // Log when no results are found
       return res.status(404).json({ message: 'No products found for the given ingredients' });
     }
 
+    // Send back the results
     res.json(results);
   });
 });
+
