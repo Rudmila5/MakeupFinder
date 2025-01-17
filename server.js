@@ -13,11 +13,13 @@ console.log(process.env.DB_USER);
 
 const corsOptions = {
   origin: [
-    'http://localhost:4000',
+    'http://localhost:4000', // localhost for development
+    'https://rudmila5.github.io' //  GitHub Pages origin
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 app.use(cors(corsOptions));
 
@@ -43,6 +45,18 @@ app.get('/search', (req, res) => {
   }
 
   const queryParams = [`%${searchTerm}%`];
+
+  const corsOptions = {
+    origin: [
+      'http://localhost:4000', // localhost for development
+      'https://rudmila5.github.io' // Allow GitHub Pages origin
+    ],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+  
+  app.use(cors(corsOptions));
+  
 
   const sqlQuery = `
     SELECT 
