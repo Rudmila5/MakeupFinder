@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const apiBaseURL = window.location.origin.includes('github.io') 
-    ? 'https://your-backend-server.com' 
+    ? 'http://159.89.226.56:4000' 
     : 'http://localhost:4000';
 
   const urlParams = new URLSearchParams(window.location.search);
