@@ -27,7 +27,7 @@ pool.getConnection((err, connection) => {
 
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
-
+  
   if (!searchTerm || searchTerm.trim() === '') {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
