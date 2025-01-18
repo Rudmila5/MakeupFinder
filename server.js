@@ -15,19 +15,31 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
+// Check if server is connected
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Database connection error: ', err);
+  } else {
+    console.log('Database connected!');
+    connection.release();
+  }
+});
+
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
-  
   console.log(`Received query: ${searchTerm}`);
 
+  // Check for valid query parameter
   if (!searchTerm || searchTerm.trim() === '') {
     console.log('Error: No query parameter provided or query is empty');
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
+  
   const queryParams = [`%${searchTerm.trim()}%`];
 
+ 
   const sqlQuery = `
     SELECT 
       p.product_name, 
@@ -42,8 +54,7 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  // Log the SQL query to verify it's being formed correctly
-  console.log(`Executing SQL Query: ${sqlQuery}, with parameter: ${queryParams[0]}`);
+  console.log(`Executing SQL Query: ${sqlQuery} with parameter: ${queryParams[0]}`);
 
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
