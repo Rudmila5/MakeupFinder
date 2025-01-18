@@ -18,7 +18,11 @@ const pool = mysql.createPool({
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
+  
+  console.log(`Received query: ${searchTerm}`);
+
   if (!searchTerm || searchTerm.trim() === '') {
+    console.log('Error: No query parameter provided or query is empty');
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
@@ -38,6 +42,9 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
+  // Log the SQL query to verify it's being formed correctly
+  console.log(`Executing SQL Query: ${sqlQuery}, with parameter: ${queryParams[0]}`);
+
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
       console.error('Database error:', err);
@@ -45,9 +52,11 @@ app.get('/search', (req, res) => {
     }
 
     if (results.length === 0) {
+      console.log('No products found for the given ingredient');
       return res.status(404).json({ message: 'No products found for the given ingredient' });
     }
 
+    console.log(`Found ${results.length} products matching the query`);
     res.json(results);
   });
 });
