@@ -12,16 +12,17 @@ const pool = mysql.createPool({
   user: 'root',
   password: 'Rudu5@',
   database: 'ingredientfinder',
+  connectionLimit: 10,
 });
 
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
-  if (!searchTerm) {
+  if (!searchTerm || searchTerm.trim() === '') {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  const queryParams = [`%${searchTerm}%`];
+  const queryParams = [`%${searchTerm.trim()}%`];
 
   const sqlQuery = `
     SELECT 
@@ -39,11 +40,12 @@ app.get('/search', (req, res) => {
 
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
+      console.error('Database error:', err);
       return res.status(500).json({ error: 'Database error', details: err.message });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ message: 'No products found for the given ingredients' });
+      return res.status(404).json({ message: 'No products found for the given ingredient' });
     }
 
     res.json(results);
@@ -51,5 +53,5 @@ app.get('/search', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
