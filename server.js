@@ -6,17 +6,16 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
-app.use(express.json()); // to handle POST data if you need it in the future
+app.use(express.json());
 
 const pool = mysql.createPool({
-  host: 'localhost',  // Make sure to use the correct MySQL host
-  user: 'root',       // Make sure these are correct
+  host: 'localhost',
+  user: 'root',
   password: 'Rudu5@',
   database: 'ingredientfinder',
   connectionLimit: 10,
 });
 
-// Check if server is connected
 pool.getConnection((err, connection) => {
   if (err) {
     console.error('Database connection error: ', err);
@@ -26,14 +25,10 @@ pool.getConnection((err, connection) => {
   }
 });
 
-// Endpoint to handle search requests
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
-  console.log(`Received query: ${searchTerm}`);
-
   if (!searchTerm || searchTerm.trim() === '') {
-    console.log('Error: No query parameter provided or query is empty');
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
@@ -53,8 +48,6 @@ app.get('/search', (req, res) => {
     WHERE i.ingredient_name LIKE ?;
   `;
 
-  console.log(`Executing SQL Query: ${sqlQuery} with parameter: ${queryParams[0]}`);
-
   pool.query(sqlQuery, queryParams, (err, results) => {
     if (err) {
       console.error('Database error:', err);
@@ -62,16 +55,13 @@ app.get('/search', (req, res) => {
     }
 
     if (results.length === 0) {
-      console.log('No products found for the given ingredient');
       return res.status(404).json({ message: 'No products found for the given ingredient' });
     }
 
-    console.log(`Found ${results.length} products matching the query`);
     res.json(results);
   });
 });
 
-// Start the server
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${port}`);
 });
