@@ -6,10 +6,11 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
+app.use(express.json()); // to handle POST data if you need it in the future
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
+  host: 'localhost',  // Make sure to use the correct MySQL host
+  user: 'root',       // Make sure these are correct
   password: 'Rudu5@',
   database: 'ingredientfinder',
   connectionLimit: 10,
@@ -25,21 +26,19 @@ pool.getConnection((err, connection) => {
   }
 });
 
+// Endpoint to handle search requests
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
 
   console.log(`Received query: ${searchTerm}`);
 
-  // Check for valid query parameter
   if (!searchTerm || searchTerm.trim() === '') {
     console.log('Error: No query parameter provided or query is empty');
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  
   const queryParams = [`%${searchTerm.trim()}%`];
 
- 
   const sqlQuery = `
     SELECT 
       p.product_name, 
@@ -72,6 +71,7 @@ app.get('/search', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Start the server
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${port}`);
 });
