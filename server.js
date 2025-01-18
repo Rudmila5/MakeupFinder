@@ -62,7 +62,8 @@ app.get('/search', (req, res) => {
   });
 });
 
-app.listen(port, '0.0.0.0', () => {  
-  console.log(`Server running at http://0.0.0.0:${port}`);
+app.listen(port, '159.89.226.56', () => {
+  console.log(`Server running at http://159.89.226.56:${port}`);
 });
+
 
