@@ -3,16 +3,16 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-const port = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'Rudu5@',
-  database: 'ingredientfinder',
+  host: process.env.MYSQL_HOST || 'localhost',
+  user: process.env.MYSQL_USER || 'root',
+  password: process.env.MYSQL_PASSWORD || 'Rudu5@',
+  database: process.env.MYSQL_DATABASE || 'ingredientfinder',
   connectionLimit: 10,
 });
 
@@ -27,7 +27,7 @@ pool.getConnection((err, connection) => {
 
 app.get('/search', (req, res) => {
   const searchTerm = req.query.query;
-  
+
   if (!searchTerm || searchTerm.trim() === '') {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
@@ -62,8 +62,6 @@ app.get('/search', (req, res) => {
   });
 });
 
-app.listen(port, '159.89.226.56', () => {
-  console.log(`Server running at http://159.89.226.56:${port}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${PORT}`);
 });
-
-
