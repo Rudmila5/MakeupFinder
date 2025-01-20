@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -15,17 +17,16 @@ const pool = mysql.createPool({
   database: process.env.MYSQL_DATABASE || 'railway',
   port: process.env.MYSQL_PORT || 21049,
   connectionLimit: 10,
-  connectTimeout: 30000,
-  acquireTimeout: 30000,
+  connectTimeout: 30000
 });
 
 pool.getConnection((err, connection) => {
   if (err) {
-    console.error('Database connection error: ', err);
-  } else {
-    console.log('Database connected!');
-    connection.release();
+    console.error('Database connection error: ', err.message);
+    return;
   }
+  console.log('Database connected!');
+  connection.release();
 });
 
 app.get('/search', (req, res) => {
